@@ -20,6 +20,7 @@ class Product(models.Model):
     # For full-text search vector
     search_vector_en = SearchVectorField(null=True)
     search_vector_ar = SearchVectorField(null=True)
+    nutrition_facts = models.JSONField(null=True, blank=True)
 
     class Meta:
         indexes = [
