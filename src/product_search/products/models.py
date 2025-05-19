@@ -18,12 +18,15 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     # For full-text search vector
-    search_vector_en = SearchVectorField(null=True)
-    search_vector_ar = SearchVectorField(null=True)
+    search_vector = SearchVectorField(null=True)
+    
     nutrition_facts = models.JSONField(null=True, blank=True)
 
     class Meta:
         indexes = [
-        GinIndex(fields=['search_vector_en'], name='prod_search_en_idx'),
-        GinIndex(fields=['search_vector_ar'], name='prod_search_ar_idx'),
+            GinIndex(fields=['search_vector'], name='prod_search_idx'),
         ]
+        
+    def save(self, *args, **kwargs):
+        # We'll let the database trigger handle the search vector update
+        super().save(*args, **kwargs)
