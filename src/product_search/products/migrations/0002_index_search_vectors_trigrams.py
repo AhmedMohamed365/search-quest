@@ -11,10 +11,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        CreateExtension('pg_trgm'),
         TrigramExtension(),
         UnaccentExtension(),
         # Create the pg_trgm extension if it doesn't exist
-        CreateExtension('pg_trgm'),
+        
         
         # Add GIN indexes with trigram operators
         migrations.RunSQL(
